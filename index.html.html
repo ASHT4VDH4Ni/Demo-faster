@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FITT FASTER — Transform in 60, 90 or 120 Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0D0C;
+    --ink-2:#151816;
+    --graphite:#1E2220;
+    --paper:#F4F2EC;
+    --paper-2:#EBE8DF;
+    --steel:#6B7169;
+    --fog:#9A9F97;
+    --line:rgba(244,242,236,0.12);
+    --line-dark:rgba(11,13,12,0.10);
+
+    --amber:#E8B33D;   /* 60 days — warm up */
+    --signal:#FF4B22;  /* 90 days — full effort */
+    --deep:#C81D1D;    /* 120 days — max intensity */
+
+    --display: 'Anton', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  input,select{font-family:inherit;}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  .h-display{
+    font-family:var(--display);
+    text-transform:uppercase;
+    line-height:0.92;
+    letter-spacing:0.005em;
+    font-weight:400;
+    overflow-wrap:break-word;
+    word-break:break-word;
+  }
+
+  /* ===== NAV ===== */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:22px 0;
+    transition:background .35s ease, padding .35s ease, border-color .35s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(11,13,12,0.92);
+    backdrop-filter:blur(10px);
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;}
+  .logo{
+    font-family:var(--display);
+    font-size:24px;
+    letter-spacing:0.01em;
+    color:var(--paper);
+    display:flex;
+    flex-direction:column;
+    line-height:0.85;
+  }
+  .logo span{color:var(--signal);}
+  .nav-links{display:flex;gap:36px;}
+  .nav-links a{
+    font-size:13px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--fog);
+    position:relative;
+    padding-bottom:4px;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{color:var(--paper);}
+  .nav-links a.active::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:100%; height:2px;
+    background:var(--signal);
+  }
+  .nav-toggle{
+    display:none;
+    width:40px;height:40px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:5px;
+  }
+  .nav-toggle span{
+    display:block;
+    width:18px;height:1.5px;
+    background:var(--paper);
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  .nav-toggle.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(2){opacity:0;}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+  .mobile-panel{
+    display:none;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    background:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-panel.open{max-height:400px;}
+  .mobile-panel ul{padding:8px 0 20px;}
+  .mobile-panel a{
+    display:block;
+    padding:14px 0;
+    font-size:15px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-panel li:last-child a{border-bottom:none;}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:14px 26px;
+    border-radius:2px;
+    transition:transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+  }
+  .btn:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:3px;
+  }
+  .btn-solid{background:var(--signal); color:var(--ink);}
+  .btn-solid:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(255,75,34,0.35);}
+  .btn-ghost{border:1px solid var(--line); color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--paper);}
+  .btn-dark{background:var(--ink); color:var(--paper);}
+  .btn-dark:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,0.25);}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    background:var(--ink);
+    overflow:hidden;
+    padding-top:180px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    align-items:center;
+    min-height:640px;
+  }
+  .hero-copy{
+    padding:0 0 90px;
+    position:relative;
+    z-index:2;
+  }
+  .hero-copy .eyebrow{color:var(--signal); margin-bottom:22px; display:block;}
+  .hero-copy h1{
+    color:var(--paper);
+    font-size:clamp(48px,6.4vw,92px);
+  }
+  .hero-copy h1 .accent{color:var(--signal);}
+  .hero-sub{
+    color:var(--fog);
+    font-size:17px;
+    max-width:420px;
+    margin:26px 0 36px;
+  }
+  .hero-cta{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:56px;}
+  .day-chips{display:flex; gap:10px; flex-wrap:wrap;}
+  .day-chip{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.05em;
+    color:var(--paper);
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .day-chip i{width:7px;height:7px;border-radius:50%;display:inline-block;}
+  .day-chip:nth-child(1) i{background:var(--amber);}
+  .day-chip:nth-child(2) i{background:var(--signal);}
+  .day-chip:nth-child(3) i{background:var(--deep);}
+
+  .hero-visual{
+    position:relative;
+    height:100%;
+    min-height:640px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .hero-figure{
+    width:100%;
+    max-width:420px;
+    position:relative;
+    z-index:2;
+  }
+  .hero-glow{
+    position:absolute;
+    width:min(520px,85vw);height:min(520px,85vw);
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,75,34,0.35) 0%, rgba(255,75,34,0) 70%);
+    top:10%;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:1;
+  }
+  .hero-diagonal{
+    position:absolute;
+    top:0; bottom:0; left:-10%;
+    width:60%;
+    background:var(--paper-2);
+    clip-path:polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+    z-index:0;
+    opacity:0.04;
+  }
+  .hero-baseline{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* ===== TRUST STRIP ===== */
+  .trust{
+    background:var(--graphite);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .trust-inner{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  .trust-item{
+    min-width:0;
+    padding:26px 30px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    border-left:1px solid var(--line);
+  }
+  .trust-item:first-child{border-left:none;}
+  .trust-item h4, .trust-item p{overflow-wrap:break-word;}
+  .trust-item .ico{
+    width:38px;height:38px;flex:0 0 auto;
+    border:1px solid var(--line);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--signal);
+  }
+  .trust-item h4{color:var(--paper); font-size:14px; font-weight:700; margin-bottom:2px;}
+  .trust-item p{color:var(--fog); font-size:12px;}
+
+  /* ===== SECTION HEADS ===== */
+  .section{padding:110px 0;}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:56px;
+    gap:30px;
+    flex-wrap:wrap;
+  }
+  .section-head .eyebrow{color:var(--signal); margin-bottom:14px; display:block;}
+  .section-head h2{font-size:clamp(32px,4vw,52px);}
+  .section-head p{color:var(--steel); max-width:360px; font-size:15px;}
+
+  /* ===== CONSULTATION FORM ===== */
+  .consult{background:var(--paper);}
+  .consult-card{
+    background:var(--ink);
+    border-radius:4px;
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    overflow:hidden;
+  }
+  .consult-info{
+    padding:56px;
+    position:relative;
+  }
+  .consult-info .eyebrow{color:var(--signal); margin-bottom:18px; display:block;}
+  .consult-info h2{color:var(--paper); font-size:clamp(30px,3.4vw,42px); margin-bottom:20px;}
+  .consult-info p{color:var(--fog); font-size:14.5px; max-width:320px; margin-bottom:40px;}
+  .consult-marks{display:flex; flex-direction:column; gap:16px;}
+  .consult-marks div{display:flex; align-items:center; gap:12px; color:var(--paper); font-size:13px; font-weight:600;}
+  .consult-marks span{color:var(--signal);}
+  .consult-form{
+    background:var(--paper);
+    padding:56px;
+  }
+  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .field{display:flex; flex-direction:column; gap:8px;}
+  .field.full{grid-column:1/-1;}
+  .field label{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--steel);
+  }
+  .field input, .field select{
+    border:none;
+    border-bottom:1px solid var(--line-dark);
+    background:transparent;
+    padding:10px 2px;
+    font-size:14.5px;
+    color:var(--ink);
+    transition:border-color .2s ease;
+  }
+  .field input::placeholder{color:#B7B3A8;}
+  .field input:focus, .field select:focus{border-bottom-color:var(--signal);}
+  .form-submit{
+    margin-top:30px;
+    width:100%;
+    justify-content:center;
+    padding:17px 26px;
+  }
+
+  /* ===== PROGRAMS ===== */
+  .programs{background:var(--paper-2);}
+  .program-cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .program-card{
+    background:var(--ink);
+    border-radius:4px;
+    padding:38px 34px 34px;
+    position:relative;
+    border-top:4px solid var(--tone);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .program-card:hover{transform:translateY(-6px); box-shadow:0 24px 48px rgba(0,0,0,0.22);}
+  .program-card.tier-60{--tone:var(--amber);}
+  .program-card.tier-90{--tone:var(--signal);}
+  .program-card.tier-120{--tone:var(--deep);}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:26px;}
+  .card-num{font-family:var(--display); font-size:56px; color:var(--tone); line-height:0.8;}
+  .card-num small{font-family:var(--mono); font-size:13px; color:var(--fog); display:block; margin-top:8px; letter-spacing:0.05em;}
+  .card-badge{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--tone);
+    border:1px solid var(--tone);
+    padding:5px 10px;
+    border-radius:20px;
+  }
+  .card-title{color:var(--paper); font-size:20px; font-weight:700; margin-bottom:6px;}
+  .card-tagline{font-family:var(--mono); font-size:11.5px; color:var(--tone); letter-spacing:0.04em; text-transform:uppercase; margin-bottom:22px;}
+  .intensity-bar{
+    height:5px; width:100%;
+    background:rgba(255,255,255,0.08);
+    border-radius:4px;
+    margin-bottom:24px;
+    overflow:hidden;
+  }
+  .intensity-fill{height:100%; background:var(--tone); border-radius:4px;}
+  .tier-60 .intensity-fill{width:50%;}
+  .tier-90 .intensity-fill{width:75%;}
+  .tier-120 .intensity-fill{width:100%;}
+  .card-list{display:flex; flex-direction:column; gap:12px; margin-bottom:32px;}
+  .card-list li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--fog); list-style:none;}
+  .card-list li span{color:var(--tone); font-family:var(--mono); font-size:12px; margin-top:2px;}
+  .program-card .btn{width:100%; justify-content:center; background:var(--tone); color:var(--ink);}
+  .program-card .btn:hover{opacity:0.9; transform:none; box-shadow:none;}
+  .compare-row{text-align:center; margin-top:44px;}
+
+  /* ===== WHY / STATS ===== */
+  .why{background:var(--ink); color:var(--paper);}
+  .why .section-head h2{color:var(--paper);}
+  .why .section-head p{color:var(--fog);}
+  .why-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    margin-bottom:60px;
+  }
+  .why-item{
+    padding:34px 22px;
+    border-left:1px solid var(--line);
+    text-align:left;
+  }
+  .why-item:first-child{border-left:none;}
+  .why-item .ico{color:var(--signal); margin-bottom:16px;}
+  .why-item h4{font-size:14.5px; font-weight:700; margin-bottom:6px;}
+  .why-item p{font-size:12.5px; color:var(--fog);}
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .stat-item{text-align:left;}
+  .stat-item .num{font-family:var(--display); font-size:clamp(36px,3.8vw,54px); color:var(--signal); line-height:1;}
+  .stat-item .lbl{font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--fog); margin-top:8px;}
+
+  /* ===== TRANSFORMATIONS ===== */
+  .transformations{background:var(--paper);}
+  .tf-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .tf-card{
+    background:var(--ink-2);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .tf-visual{
+    position:relative;
+    height:280px;
+    display:flex;
+  }
+  .tf-half{
+    flex:1;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .tf-half.before{background:var(--graphite);}
+  .tf-half.after{background:linear-gradient(180deg, rgba(255,75,34,0.16), rgba(255,75,34,0) 60%), var(--ink);}
+  .tf-label{
+    position:absolute; top:14px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--fog);
+  }
+  .tf-half.before .tf-label{left:14px;}
+  .tf-half.after .tf-label{right:14px; color:var(--signal);}
+  .tf-divider{width:1px; background:var(--line);}
+  .tf-tag{
+    position:absolute; top:14px; right:14px;
+    background:var(--signal); color:var(--ink);
+    font-family:var(--mono); font-weight:700; font-size:12px;
+    padding:5px 10px; border-radius:20px;
+    z-index:3;
+  }
+  .tf-body{padding:24px 26px 28px;}
+  .tf-quote{color:var(--fog); font-size:13.5px; font-style:italic; margin-bottom:16px; line-height:1.5;}
+  .tf-foot{display:flex; justify-content:space-between; align-items:center;}
+  .tf-name{color:var(--paper); font-weight:700; font-size:13.5px;}
+  .tf-stars{color:var(--amber); font-size:13px; letter-spacing:2px;}
+
+  /* silhouette figures */
+  .sil{opacity:0.9;}
+
+  /* ===== ABOUT BANNER ===== */
+  .about{background:var(--graphite); color:var(--paper);}
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .about-quote{
+    font-family:var(--display);
+    font-size:clamp(30px,3.6vw,48px);
+    line-height:1.02;
+    color:var(--paper);
+  }
+  .about-quote .accent{color:var(--signal);}
+  .about-copy .eyebrow{color:var(--signal); margin-bottom:16px; display:block;}
+  .about-copy p{color:var(--fog); font-size:15px; margin-bottom:28px; max-width:440px;}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--ink); color:var(--paper); padding:80px 0 30px;}
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1.3fr;
+    gap:40px;
+    padding-bottom:60px;
+    border-bottom:1px solid var(--line);
+  }
+  .footer-brand .logo{margin-bottom:16px;}
+  .footer-brand p{color:var(--fog); font-size:13px; max-width:260px; margin-bottom:22px;}
+  .socials{display:flex; gap:12px;}
+  .socials a{
+    width:34px;height:34px;border:1px solid var(--line); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; color:var(--fog);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .socials a:hover{border-color:var(--signal); color:var(--signal);}
+  .footer-col h5{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--fog); margin-bottom:20px;
+  }
+  .footer-col ul{display:flex; flex-direction:column; gap:12px;}
+  .footer-col a{font-size:13.5px; color:var(--paper); opacity:0.85;}
+  .footer-col a:hover{color:var(--signal); opacity:1;}
+  .footer-contact li{display:flex; gap:10px; font-size:13.5px; color:var(--paper); opacity:0.85; align-items:flex-start;}
+  .footer-contact span{color:var(--signal);}
+  .newsletter{margin-top:20px;}
+  .newsletter form{display:flex; border:1px solid var(--line); border-radius:2px; overflow:hidden;}
+  .newsletter input{flex:1; background:transparent; border:none; padding:12px 14px; color:var(--paper); font-size:13px;}
+  .newsletter button{background:var(--signal); color:var(--ink); padding:12px 16px; display:flex; align-items:center;}
+  .footer-bottom{
+    padding-top:26px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--fog);
+    flex-wrap:wrap; gap:10px;
+  }
+  .footer-bottom a{color:var(--fog);}
+  .footer-bottom a:hover{color:var(--paper);}
+
+  /* ===== responsive ===== */
+  @media (max-width:1024px){
+    .wrap{padding:0 24px;}
+    .nav-links{display:none;}
+    .nav-toggle{display:flex;}
+    .mobile-panel{display:block;}
+    nav .btn-solid{padding:12px 18px; font-size:11px;}
+    .hero-grid{grid-template-columns:1fr; min-height:auto;}
+    .hero-visual{min-height:360px; order:-1;}
+    .hero-copy{padding-bottom:60px;}
+    .trust-inner{grid-template-columns:repeat(2,1fr);}
+    .trust-item:nth-child(3){border-left:none;}
+    .consult-card{grid-template-columns:1fr;}
+    .program-cards{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:repeat(2,1fr);}
+    .why-item:nth-child(3){border-left:none;}
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .tf-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr; gap:30px;}
+    .footer-grid{grid-template-columns:1fr 1fr; gap:36px;}
+  }
+  @media (max-width:640px){
+    .trust-item{padding:20px 18px;}
+  }
+  @media (max-width:560px){
+    .form-grid{grid-template-columns:1fr;}
+    .consult-info, .consult-form{padding:34px 26px;}
+    .footer-grid{grid-template-columns:1fr;}
+    .section{padding:70px 0;}
+  }
+  @media (max-width:480px){
+    .trust-inner{grid-template-columns:1fr;}
+    .trust-item{border-left:none; border-top:1px solid var(--line);}
+    .trust-item:first-child{border-top:none;}
+    .day-chips{flex-direction:column; align-items:flex-start;}
+    .section-head h2{font-size:clamp(28px,9vw,36px);}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <div class="logo">FITT<span>FASTER</span></div>
+      <div class="nav-links">
+        <a href="#" class="active">Home</a>
+        <a href="#programs">Programs</a>
+        <a href="#about">About</a>
+        <a href="#transformations">Transformations</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <a href="#consult" class="btn btn-solid">Join Now</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <div class="wrap">
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#transformations">Transformations</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-diagonal"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Personal training · 60 / 90 / 120 day programs</span>
+      <h1 class="h-display">Transform<br>yourself<br><span class="accent">on the clock.</span></h1>
+      <p class="hero-sub">Certified coaches, custom nutrition and a plan that adapts to you — built around one deadline you set yourself.</p>
+      <div class="hero-cta">
+        <a href="#consult" class="btn btn-solid">Start your journey →</a>
+        <a href="#" class="btn btn-ghost">▶ Watch the process</a>
+      </div>
+      <div class="day-chips">
+        <span class="day-chip"><i></i>60 days — Build the base</span>
+        <span class="day-chip"><i></i>90 days — Level up</span>
+        <span class="day-chip"><i></i>120 days — Full rebuild</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-glow"></div>
+      <svg class="hero-figure sil" viewBox="0 0 300 460" fill="none">
+        <!-- outline (before) ghost -->
+        <path d="M150 40 a26 26 0 1 0 0.1 0" stroke="#3A3E3B" stroke-width="1.5"/>
+        <path d="M110 96 Q150 80 190 96 L205 190 Q150 220 95 190 Z" stroke="#3A3E3B" stroke-width="1.5" fill="none"/>
+        <path d="M95 190 L70 300 M205 190 L230 300" stroke="#3A3E3B" stroke-width="1.5"/>
+        <path d="M120 220 L108 400 M180 220 L192 400" stroke="#3A3E3B" stroke-width="1.5"/>
+        <!-- solid (after) figure, offset & scaled up = transformation -->
+        <g transform="translate(4,6)">
+          <circle cx="150" cy="46" r="30" fill="#F4F2EC" opacity="0.06"/>
+          <circle cx="150" cy="46" r="30" fill="none" stroke="#FF4B22" stroke-width="2.5"/>
+          <path d="M100 100 Q150 78 200 100 L222 205 Q150 244 78 205 Z" fill="#FF4B22" opacity="0.9"/>
+          <path d="M78 205 L46 320 L66 328 L96 218 Z" fill="#F4F2EC" opacity="0.9"/>
+          <path d="M222 205 L254 320 L234 328 L204 218 Z" fill="#F4F2EC" opacity="0.9"/>
+          <path d="M118 230 L104 420 L132 420 L142 240 Z" fill="#F4F2EC" opacity="0.85"/>
+          <path d="M182 230 L196 420 L168 420 L158 240 Z" fill="#F4F2EC" opacity="0.85"/>
+          <!-- barbell -->
+          <rect x="20" y="140" width="260" height="10" rx="2" fill="#F4F2EC"/>
+          <rect x="6" y="118" width="26" height="54" rx="3" fill="#F4F2EC"/>
+          <rect x="268" y="118" width="26" height="54" rx="3" fill="#F4F2EC"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="hero-baseline"></div>
+</section>
+
+<!-- ===== TRUST STRIP ===== -->
+<div class="trust">
+  <div class="wrap trust-inner">
+    <div class="trust-item">
+      <span class="ico">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </span>
+      <div><h4>Expert Coaches</h4><p>Certified & experienced</p></div>
+    </div>
+    <div class="trust-item">
+      <span class="ico">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      </span>
+      <div><h4>Personalized Plan</h4><p>Tailored for you</p></div>
+    </div>
+    <div class="trust-item">
+      <span class="ico">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 2h6v4H9z"/></svg>
+      </span>
+      <div><h4>Nutrition Guidance</h4><p>Clean & effective</p></div>
+    </div>
+    <div class="trust-item">
+      <span class="ico">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      </span>
+      <div><h4>24/7 Support</h4><p>We're with you</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONSULTATION ===== -->
+<section class="section consult" id="consult">
+  <div class="wrap">
+    <div class="consult-card">
+      <div class="consult-info">
+        <span class="eyebrow">Take the first step</span>
+        <h2 class="h-display">Get your<br>free plan</h2>
+        <p>Tell us about yourself. Our experts build a program around your body, your schedule and your deadline — free, no commitment.</p>
+        <div class="consult-marks">
+          <div><span>✓</span> 100% personalized plan</div>
+          <div><span>✓</span> No commitment required</div>
+          <div><span>✓</span> Response within 24 hours</div>
+        </div>
+      </div>
+      <form class="consult-form">
+        <div class="form-grid">
+          <div class="field"><label>Full name</label><input type="text" placeholder="Your name"></div>
+          <div class="field"><label>Email address</label><input type="email" placeholder="you@email.com"></div>
+          <div class="field"><label>Phone number</label><input type="tel" placeholder="+91"></div>
+          <div class="field"><label>Age</label><input type="number" placeholder="Age"></div>
+          <div class="field">
+            <label>Gender</label>
+            <select><option>Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+          </div>
+          <div class="field">
+            <label>Fitness goal</label>
+            <select><option>Select</option><option>Lose fat</option><option>Build muscle</option><option>General fitness</option></select>
+          </div>
+          <div class="field">
+            <label>Current fitness level</label>
+            <select><option>Select</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
+          </div>
+          <div class="field">
+            <label>How did you hear about us?</label>
+            <select><option>Select</option><option>Instagram</option><option>Google</option><option>Friend</option></select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-solid form-submit">Get my free plan →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRAMS ===== -->
+<section class="section programs" id="programs">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Our transformation programs</span>
+        <h2 class="h-display">Choose your<br>journey</h2>
+      </div>
+      <p>Every program runs at a different intensity — pick the timeline that matches the deadline in your life, not a generic plan.</p>
+    </div>
+
+    <div class="program-cards">
+      <div class="program-card tier-60">
+        <div class="card-top">
+          <div class="card-num">60<small>Days</small></div>
+          <span class="card-badge">Warm-up</span>
+        </div>
+        <div class="card-title">Build the Foundation</div>
+        <div class="card-tagline">Consistency over intensity</div>
+        <div class="intensity-bar"><div class="intensity-fill"></div></div>
+        <ul class="card-list">
+          <li><span>—</span>Build consistent training habits</li>
+          <li><span>—</span>Improve strength & stamina</li>
+          <li><span>—</span>Clean nutrition guidance</li>
+          <li><span>—</span>Visible early results</li>
+        </ul>
+        <a href="#consult" class="btn">Start 60-day journey →</a>
+      </div>
+
+      <div class="program-card tier-90">
+        <div class="card-top">
+          <div class="card-num">90<small>Days</small></div>
+          <span class="card-badge">Full effort</span>
+        </div>
+        <div class="card-title">Level Up Your Results</div>
+        <div class="card-tagline">The most-chosen program</div>
+        <div class="intensity-bar"><div class="intensity-fill"></div></div>
+        <ul class="card-list">
+          <li><span>—</span>Advanced structured workouts</li>
+          <li><span>—</span>Muscle-building focus</li>
+          <li><span>—</span>Customized nutrition plan</li>
+          <li><span>—</span>Visible physique transformation</li>
+        </ul>
+        <a href="#consult" class="btn">Start 90-day journey →</a>
+      </div>
+
+      <div class="program-card tier-120">
+        <div class="card-top">
+          <div class="card-num">120<small>Days</small></div>
+          <span class="card-badge">Max intensity</span>
+        </div>
+        <div class="card-title">Become Your Best Version</div>
+        <div class="card-tagline">Total body rebuild</div>
+        <div class="intensity-bar"><div class="intensity-fill"></div></div>
+        <ul class="card-list">
+          <li><span>—</span>Peak performance training</li>
+          <li><span>—</span>Advanced physique sculpting</li>
+          <li><span>—</span>Mindset & lifestyle coaching</li>
+          <li><span>—</span>Sustainable long-term results</li>
+        </ul>
+        <a href="#consult" class="btn">Start 120-day journey →</a>
+      </div>
+    </div>
+
+    <div class="compare-row">
+      <a href="#" class="btn btn-dark">⇄ Compare programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY CHOOSE ===== -->
+<section class="section why">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">The difference</span>
+        <h2 class="h-display">Why choose<br>Fitt Faster</h2>
+      </div>
+      <p>Not another generic gym membership — a system built to get you to a specific result by a specific date.</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4v16M18 4v16M2 9h4M2 15h4M18 9h4M18 15h4M6 12h12"/></svg></span>
+        <h4>Expert Trainers</h4><p>Certified professionals with proven results</p>
+      </div>
+      <div class="why-item">
+        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+        <h4>Personalized Plans</h4><p>Tailored to your body, goals & lifestyle</p>
+      </div>
+      <div class="why-item">
+        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>
+        <h4>Nutrition Guidance</h4><p>Custom diet plans from our experts</p>
+      </div>
+      <div class="why-item">
+        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8M21 3h-6v6"/></svg></span>
+        <h4>Track & Improve</h4><p>Advanced progress tracking & analytics</p>
+      </div>
+      <div class="why-item">
+        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M15 14.4c2.9.3 5 2.2 5 5.6"/></svg></span>
+        <h4>Supportive Community</h4><p>Stay motivated with our members</p>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-item"><div class="num">5,000+</div><div class="lbl">Transformed lives</div></div>
+      <div class="stat-item"><div class="num">15+</div><div class="lbl">Expert coaches</div></div>
+      <div class="stat-item"><div class="num">98%</div><div class="lbl">Client satisfaction</div></div>
+      <div class="stat-item"><div class="num">50K+</div><div class="lbl">Hours transformed</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRANSFORMATIONS ===== -->
+<section class="section transformations" id="transformations">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Real people, real results</span>
+        <h2 class="h-display">Transformations</h2>
+      </div>
+      <p>Every outline becomes solid. That's the whole program, visualized.</p>
+    </div>
+
+    <div class="tf-grid">
+      <div class="tf-card">
+        <div class="tf-visual">
+          <span class="tf-tag">−16kg · 12wks</span>
+          <div class="tf-half before">
+            <span class="tf-label">Before</span>
+            <svg width="70" height="150" viewBox="0 0 70 150" fill="none"><circle cx="35" cy="18" r="13" stroke="#5A5F5B" stroke-width="1.6"/><path d="M18 36 Q35 28 52 36 L58 80 Q35 92 12 80 Z" stroke="#5A5F5B" stroke-width="1.6"/><path d="M12 80 L4 130 M58 80 L66 130 M22 92 L18 148 M48 92 L52 148" stroke="#5A5F5B" stroke-width="1.6"/></svg>
+          </div>
+          <div class="tf-divider"></div>
+          <div class="tf-half after">
+            <span class="tf-label">After</span>
+            <svg width="82" height="150" viewBox="0 0 82 150" fill="none"><circle cx="41" cy="18" r="14" fill="#FF4B22"/><path d="M16 38 Q41 26 66 38 L74 84 Q41 98 8 84 Z" fill="#FF4B22"/><path d="M8 84 L-2 132 L10 136 L22 96 Z" fill="#FF4B22" opacity="0.85"/><path d="M74 84 L84 132 L72 136 L60 96 Z" fill="#FF4B22" opacity="0.85"/><path d="M24 96 L18 148 L34 148 L38 100 Z" fill="#FF4B22" opacity="0.7"/><path d="M58 96 L64 148 L48 148 L44 100 Z" fill="#FF4B22" opacity="0.7"/></svg>
+          </div>
+        </div>
+        <div class="tf-body">
+          <p class="tf-quote">"Lost 16kg and gained real confidence — Fitt Faster changed my life."</p>
+          <div class="tf-foot"><span class="tf-name">Rahul S.</span><span class="tf-stars">★★★★★</span></div>
+        </div>
+      </div>
+
+      <div class="tf-card">
+        <div class="tf-visual">
+          <span class="tf-tag">−12kg · 10wks</span>
+          <div class="tf-half before">
+            <span class="tf-label">Before</span>
+            <svg width="70" height="150" viewBox="0 0 70 150" fill="none"><circle cx="35" cy="18" r="12" stroke="#5A5F5B" stroke-width="1.6"/><path d="M20 36 Q35 30 50 36 L54 74 Q35 84 16 74 Z" stroke="#5A5F5B" stroke-width="1.6"/><path d="M16 74 L10 130 M54 74 L60 130 M24 84 L21 148 M46 84 L49 148" stroke="#5A5F5B" stroke-width="1.6"/></svg>
+          </div>
+          <div class="tf-divider"></div>
+          <div class="tf-half after">
+            <span class="tf-label">After</span>
+            <svg width="76" height="150" viewBox="0 0 76 150" fill="none"><circle cx="38" cy="18" r="13" fill="#FF4B22"/><path d="M18 36 Q38 26 58 36 L64 78 Q38 90 12 78 Z" fill="#FF4B22"/><path d="M12 78 L4 130 L14 134 L24 90 Z" fill="#FF4B22" opacity="0.85"/><path d="M64 78 L72 130 L62 134 L52 90 Z" fill="#FF4B22" opacity="0.85"/><path d="M26 90 L22 148 L36 148 L38 92 Z" fill="#FF4B22" opacity="0.7"/><path d="M50 90 L54 148 L40 148 L38 92 Z" fill="#FF4B22" opacity="0.7"/></svg>
+          </div>
+        </div>
+        <div class="tf-body">
+          <p class="tf-quote">"The trainers, the plan, the support — everything was on point."</p>
+          <div class="tf-foot"><span class="tf-name">Priya M.</span><span class="tf-stars">★★★★☆</span></div>
+        </div>
+      </div>
+
+      <div class="tf-card">
+        <div class="tf-visual">
+          <span class="tf-tag">−20kg · 14wks</span>
+          <div class="tf-half before">
+            <span class="tf-label">Before</span>
+            <svg width="66" height="150" viewBox="0 0 66 150" fill="none"><circle cx="33" cy="18" r="11" stroke="#5A5F5B" stroke-width="1.6"/><path d="M20 34 Q33 28 46 34 L49 68 Q33 78 17 68 Z" stroke="#5A5F5B" stroke-width="1.6"/><path d="M17 68 L11 128 M49 68 L55 128 M23 78 L20 148 M43 78 L46 148" stroke="#5A5F5B" stroke-width="1.6"/></svg>
+          </div>
+          <div class="tf-divider"></div>
+          <div class="tf-half after">
+            <span class="tf-label">After</span>
+            <svg width="86" height="150" viewBox="0 0 86 150" fill="none"><circle cx="43" cy="18" r="15" fill="#FF4B22"/><path d="M15 40 Q43 26 71 40 L80 86 Q43 100 6 86 Z" fill="#FF4B22"/><path d="M6 86 L-4 134 L10 138 L20 98 Z" fill="#FF4B22" opacity="0.85"/><path d="M80 86 L90 134 L76 138 L66 98 Z" fill="#FF4B22" opacity="0.85"/><path d="M22 98 L16 148 L34 148 L38 100 Z" fill="#FF4B22" opacity="0.7"/><path d="M64 98 L70 148 L52 148 L48 100 Z" fill="#FF4B22" opacity="0.7"/></svg>
+          </div>
+        </div>
+        <div class="tf-body">
+          <p class="tf-quote">"From skinny to strong. The 120-day program is a genuine game changer."</p>
+          <div class="tf-foot"><span class="tf-name">Karan D.</span><span class="tf-stars">★★★★★</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="section about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-quote h-display">
+      Discipline.<br>Dedication.<br><span class="accent">Determination.</span>
+    </div>
+    <div class="about-copy">
+      <span class="eyebrow">About us</span>
+      <p>Fitt Faster is more than a gym — it's a community of people pushing each other to be better, one deadline at a time.</p>
+      <p>Certified trainers, personalized programs and systems built on data ensure the results actually last.</p>
+      <a href="#" class="btn btn-solid">Read more about us →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">FITT<span>FASTER</span></div>
+        <p>Empowering you to be stronger than yesterday. Together, we achieve more.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 9h3V5h-3a4 4 0 0 0-4 4v3H7v4h3v7h4v-7h3l1-4h-4V9a1 1 0 0 1 1-1z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M10 9l6 3-6 3z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick links</h5>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#about">About us</a></li>
+          <li><a href="#transformations">Transformations</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Programs</h5>
+        <ul>
+          <li><a href="#">60 days program</a></li>
+          <li><a href="#">90 days program</a></li>
+          <li><a href="#">120 days program</a></li>
+          <li><a href="#">Personal training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul class="footer-contact">
+          <li><span>✆</span> +91 12345 67890</li>
+          <li><span>✉</span> info@fittfaster.com</li>
+          <li><span>⚲</span> 123 Fitness Street, Stronger City, India</li>
+        </ul>
+        <div class="newsletter">
+          <form onsubmit="return false;">
+            <input type="email" placeholder="Enter your email">
+            <button aria-label="Subscribe">→</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fitt Faster. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> · <a href="#">Terms & Conditions</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const navToggle = document.getElementById('navToggle');
+  const mobilePanel = document.getElementById('mobilePanel');
+  navToggle.addEventListener('click', () => {
+    const isOpen = mobilePanel.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  mobilePanel.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobilePanel.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>
